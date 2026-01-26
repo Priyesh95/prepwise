@@ -1,0 +1,88 @@
+.header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-300);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: box-shadow var(--transition-base);
+}
+
+/* Subtle shadow on scroll (add via JS later if needed) */
+.header--scrolled {
+  box-shadow: var(--shadow-sm);
+}
+
+.header__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.header__logo-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Navigation */
+.header__nav {
+  font-family: var(--font-sans);
+}
+
+.nav-list {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-700);
+  text-decoration: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-base);
+}
+
+.nav-link:hover {
+  color: var(--color-black);
+  background-color: var(--color-gray-100);
+}
+
+.nav-link:focus {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+/* Active link (add this class via React Router) */
+.nav-link.active {
+  color: var(--color-black);
+  font-weight: var(--font-semibold);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header__content {
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+
+  .nav-list {
+    gap: var(--space-2);
+  }
+
+  .nav-link {
+    font-size: var(--text-xs);
+    padding: var(--space-1);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-list {
+    gap: var(--space-1);
+  }
+}
