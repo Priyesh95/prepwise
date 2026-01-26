@@ -1,0 +1,59 @@
+.settings {
+  padding: var(--space-8) 0;
+}
+
+.settings h1 {
+  margin-bottom: var(--space-6);
+}
+
+.settings__section {
+  margin-bottom: var(--space-6);
+}
+
+.settings__section h3 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-sans);
+}
+
+.settings__description {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-relaxed);
+}
+
+.key-display {
+  background-color: var(--color-gray-100);
+  padding: var(--space-4);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--space-4);
+  border: 1px solid var(--color-gray-300);
+}
+
+.key-value {
+  font-family: monospace;
+  font-size: var(--text-sm);
+  color: var(--color-gray-800);
+  padding: var(--space-2);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-sm);
+  margin: var(--space-2) 0;
+  word-break: break-all;
+}
+
+.toggle-key-btn {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: var(--space-1);
+}
+
+.toggle-key-btn:hover {
+  color: var(--color-black);
+}
