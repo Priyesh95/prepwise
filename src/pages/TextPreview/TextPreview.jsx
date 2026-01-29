@@ -46,9 +46,8 @@ function TextPreview() {
   }
 
   const handleContinue = () => {
-    // For now, just show alert (we'll navigate to question generation in Task 4.3)
-    alert('Text verified! Next: Question generation (coming in next task)')
-    // navigate('/generate-questions', { state: { materialId } })
+    // Navigate to question generation
+    navigate('/generate-questions', { state: { materialId } })
   }
 
   const handleEditToggle = () => {
