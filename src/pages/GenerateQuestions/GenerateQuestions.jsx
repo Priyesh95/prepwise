@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuestionGeneration } from '../../hooks/useQuestionGeneration'
-import { getMaterial } from '../../utils/indexedDB'
-import { saveQuiz } from '../../utils/indexedDB'
+import { getMaterial, saveMaterial, saveQuiz } from '../../utils/indexedDB'
 import Container from '../../components/layout/Container/Container'
 import Card from '../../components/common/Card/Card'
 import Button from '../../components/common/Button/Button'
@@ -80,9 +79,9 @@ function GenerateQuestions() {
           setProgress({ step, total, message })
         },
         counts: {
-          mcq: 20,
-          singleWord: 15,
-          shortAnswer: 10,
+          mcq: 1,
+          singleWord: 1,
+          shortAnswer: 1,
         },
       })
 
@@ -90,8 +89,20 @@ function GenerateQuestions() {
         setGeneratedQuestions(result.questions)
         setStatus('success')
 
+        // Save questionBank to material
+        const updatedMaterial = {
+          ...material,
+          questionBank: {
+            mcq: result.questions.mcq || [],
+            singleWord: result.questions.singleWord || [],
+            shortAnswer: result.questions.shortAnswer || [],
+            totalQuestions: result.counts.total
+          }
+        }
+        await saveMaterial(updatedMaterial)
+
         // Save quiz to IndexedDB
-        const quizId = await saveQuiz({
+        await saveQuiz({
           materialId: material.id,
           materialName: material.fileName,
           questions: result.questions,
@@ -100,13 +111,7 @@ function GenerateQuestions() {
 
         // Auto-navigate to configure page after brief delay
         setTimeout(() => {
-          navigate('/configure', {
-            state: {
-              quizId,
-              materialId: material.id,
-              questions: result.questions,
-            },
-          })
+          navigate(`/configure/${material.id}`)
         }, 2000)
       } else {
         setStatus('error')

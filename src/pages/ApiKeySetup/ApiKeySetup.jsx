@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApiKey } from '../../context/ApiKeyContext/ApiKeyContext'
-import { useClaudeAPI } from '../../hooks/useClaudeAPI'
 import { validateApiKeyFormat } from '../../utils/encryption'
 import Container from '../../components/layout/Container/Container'
 import Button from '../../components/common/Button/Button'
@@ -11,10 +10,8 @@ import './ApiKeySetup.css'
 function ApiKeySetup() {
   const navigate = useNavigate()
   const { saveApiKey, hasApiKey } = useApiKey()
-  const { validateApiKey } = useClaudeAPI()
 
   const [key, setKey] = useState('')
-  const [isValidating, setIsValidating] = useState(false)
   const [error, setError] = useState('')
   const [showKey, setShowKey] = useState(false)
 
@@ -33,24 +30,10 @@ function ApiKeySetup() {
       return
     }
 
-    setIsValidating(true)
-
-    try {
-      // Validate with actual API call
-      const result = await validateApiKey(key)
-      result.success = true;
-
-      if (result.success) {
-        saveApiKey(key)
-        navigate('/dashboard')
-      } else {
-        setError(result.error)
-      }
-    } catch (error) {
-      setError('Failed to validate API key. Please try again.')
-    } finally {
-      setIsValidating(false)
-    }
+    // Save the key without API validation (CORS limitation for frontend-only apps)
+    // The key will be validated when first used for question generation
+    saveApiKey(key)
+    navigate('/dashboard')
   }
 
   return (
@@ -111,7 +94,6 @@ function ApiKeySetup() {
                   onChange={(e) => setKey(e.target.value)}
                   placeholder="sk-ant-api03-..."
                   className={`input ${error ? 'input--error' : ''}`}
-                  disabled={isValidating}
                 />
                 <button
                   type="button"
@@ -139,9 +121,9 @@ function ApiKeySetup() {
               size="large"
               fullWidth
               onClick={handleValidateAndSave}
-              disabled={!key || isValidating}
+              disabled={!key}
             >
-              {isValidating ? 'Validating...' : 'Validate & Save Key'}
+              Save Key & Continue
             </Button>
 
             {/* Security Note */}
@@ -150,6 +132,10 @@ function ApiKeySetup() {
                 🔒 Your API key is stored locally in your browser and never
                 sent to our servers. You have full control and can delete it
                 anytime from Settings.
+              </p>
+              <p>
+                ℹ️ Your API key will be validated when you generate your first quiz.
+                If there's an issue, you'll be notified at that time.
               </p>
             </div>
 

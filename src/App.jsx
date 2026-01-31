@@ -7,13 +7,14 @@ import Home from './pages/Home/Home'
 import ApiKeySetup from './pages/ApiKeySetup/ApiKeySetup'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Upload from './pages/Upload/Upload'
-import Processing from './pages/Processing/Processing'  // ADD THIS
+import Processing from './pages/Processing/Processing'
+import TextPreview from './pages/TextPreview/TextPreview'
+import GenerateQuestions from './pages/GenerateQuestions/GenerateQuestions'
 import Configure from './pages/Configure/Configure'
 import Quiz from './pages/Quiz/Quiz'
 import Results from './pages/Results/Results'
 import Review from './pages/Review/Review'
 import Settings from './pages/Settings/Settings'
-import TextPreview from './pages/TextPreview/TextPreview'
 import './styles/index.css'
 
 function App() {
@@ -31,7 +32,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/processing" element={<Processing />} />
-          <Route path="/text-preview" element={<TextPreview />} /> 
+          <Route path="/text-preview" element={<TextPreview />} />
+          <Route path="/generate-questions" element={<GenerateQuestions />} />
           <Route path="/configure/:materialId" element={<Configure />} />
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/results/:quizId" element={<Results />} />
