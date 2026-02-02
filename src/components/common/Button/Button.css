@@ -13,9 +13,9 @@
   white-space: nowrap;
 }
 
-.btn:focus {
+.btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(36, 36, 36, 0.1);
+  box-shadow: 0 0 0 3px rgba(36, 36, 36, 0.2);
 }
 
 .btn:disabled {
@@ -23,7 +23,9 @@
   cursor: not-allowed;
 }
 
-/* Button Variants */
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
 
 /* Primary - Black background, white text */
 .btn--primary {
@@ -35,10 +37,13 @@
 .btn--primary:hover:not(:disabled) {
   background-color: var(--color-gray-900);
   border-color: var(--color-gray-900);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn--primary:active:not(:disabled) {
   background-color: var(--color-gray-800);
+  transform: translateY(0);
 }
 
 /* Secondary - White background, black border */
@@ -70,7 +75,6 @@
 }
 
 /* Button Sizes */
-
 .btn--small {
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-sm);

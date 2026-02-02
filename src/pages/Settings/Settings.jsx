@@ -6,7 +6,7 @@ import Button from '../../components/common/Button/Button'
 import './Settings.css'
 
 function Settings() {
-  const { hasApiKey, clearApiKey, getApiKey } = useApiKey()
+  const { hasApiKey, clearApiKey, getApiKey, isLoading } = useApiKey()
   const [showKey, setShowKey] = useState(false)
 
   const handleClearKey = () => {
@@ -31,7 +31,9 @@ function Settings() {
           <div className="settings__section">
             <h3>API Key Management</h3>
 
-            {hasApiKey() ? (
+            {isLoading ? (
+              <p className="settings__description">Loading...</p>
+            ) : hasApiKey() ? (
               <>
                 <p className="settings__description">
                   Your Claude API key is configured and ready to use.

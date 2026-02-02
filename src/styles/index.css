@@ -5,6 +5,8 @@
 @import './variables.css';
 @import './typography.css';
 @import './layout.css';
+@import './transitions.css';
+@import './accessibility.css';
 
 /* Global styles */
 body {
@@ -39,4 +41,17 @@ main {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Add animation classes */
+.animate-on-load {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive main padding */
+@media (max-width: 768px) {
+  main {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-6);
+  }
 }

@@ -8,13 +8,17 @@ import './Upload.css'
 
 function Upload() {
   const navigate = useNavigate()
-  const { hasApiKey } = useApiKey()
+  const { hasApiKey, isLoading: isLoadingApiKey } = useApiKey()
 
   const [selectedFile, setSelectedFile] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState('')
 
-  // Redirect if no API key
+  // Wait for API key to load, then redirect if missing
+  if (isLoadingApiKey) {
+    return null // Show nothing while loading
+  }
+
   if (!hasApiKey()) {
     navigate('/api-setup')
     return null

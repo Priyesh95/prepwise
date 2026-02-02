@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { extractTextFromPDF, isProbablyScanned, validateExtractedText } from '../../utils/pdfProcessor'
 import { saveMaterial } from '../../utils/indexedDB'
@@ -17,13 +17,20 @@ function Processing() {
   const [status, setStatus] = useState('starting') // starting, extracting, analyzing, complete, error
   const [error, setError] = useState('')
 
+  // Prevent double execution in React.StrictMode
+  const hasProcessedRef = useRef(false)
+
   useEffect(() => {
     if (!file) {
       navigate('/upload')
       return
     }
 
-    processFile()
+    // Only process once
+    if (!hasProcessedRef.current) {
+      hasProcessedRef.current = true
+      processFile()
+    }
   }, [file])
 
   const processFile = async () => {

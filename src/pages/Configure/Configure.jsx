@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { getMaterial } from '../../utils/indexedDB'
 import { useQuiz } from '../../context/QuizContext/QuizContext'
 import Container from '../../components/layout/Container/Container'
@@ -10,7 +10,12 @@ import './Configure.css'
 function Configure() {
   const navigate = useNavigate()
   const { materialId } = useParams()
+  const location = useLocation()
   const { initializeQuiz } = useQuiz()
+
+  // Check if in review mode
+  const reviewMode = location.state?.mode === 'review'
+  const reviewQuestionIds = location.state?.questionIds || []
 
   const [material, setMaterial] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -34,6 +39,14 @@ function Configure() {
     loadMaterial()
   }, [materialId])
 
+  const getAllQuestionsFromBank = (questionBank) => {
+    return [
+      ...questionBank.mcq,
+      ...questionBank.singleWord,
+      ...questionBank.shortAnswer
+    ]
+  }
+
   const loadMaterial = async () => {
     try {
       const data = await getMaterial(materialId)
@@ -50,15 +63,30 @@ function Configure() {
 
       setMaterial(data)
 
-      // Set max values based on available questions
-      const maxMCQ = data.questionBank.mcq.length
-      const maxSingle = data.questionBank.singleWord.length
-      const maxShort = data.questionBank.shortAnswer.length
+      // If review mode, set counts based on review questions
+      if (reviewMode && reviewQuestionIds.length > 0) {
+        const reviewQuestions = getAllQuestionsFromBank(data.questionBank)
+          .filter(q => reviewQuestionIds.includes(q.id))
 
-      // Set initial values to half of available
-      setMcqCount(Math.min(10, Math.floor(maxMCQ / 2)))
-      setSingleWordCount(Math.min(5, Math.floor(maxSingle / 2)))
-      setShortAnswerCount(Math.min(3, Math.floor(maxShort / 2)))
+        const mcqReview = reviewQuestions.filter(q => q.type === 'mcq').length
+        const singleReview = reviewQuestions.filter(q => q.type === 'singleWord').length
+        const shortReview = reviewQuestions.filter(q => q.type === 'shortAnswer').length
+
+        setMcqCount(mcqReview)
+        setSingleWordCount(singleReview)
+        setShortAnswerCount(shortReview)
+        setEnableTimer(false) // No timer for review
+      } else {
+        // Normal mode - Set max values based on available questions
+        const maxMCQ = data.questionBank.mcq.length
+        const maxSingle = data.questionBank.singleWord.length
+        const maxShort = data.questionBank.shortAnswer.length
+
+        // Set initial values to half of available
+        setMcqCount(Math.min(10, Math.floor(maxMCQ / 2)))
+        setSingleWordCount(Math.min(5, Math.floor(maxSingle / 2)))
+        setShortAnswerCount(Math.min(3, Math.floor(maxShort / 2)))
+      }
 
     } catch (err) {
       console.error('Error loading material:', err)
@@ -84,17 +112,24 @@ function Configure() {
       return
     }
 
-    // Select random questions from each type
-    const selectedMCQ = getRandomQuestions(material.questionBank.mcq, mcqCount)
-    const selectedSingleWord = getRandomQuestions(material.questionBank.singleWord, singleWordCount)
-    const selectedShortAnswer = getRandomQuestions(material.questionBank.shortAnswer, shortAnswerCount)
+    let allQuestions
 
-    // Combine and shuffle all questions
-    const allQuestions = [
-      ...selectedMCQ,
-      ...selectedSingleWord,
-      ...selectedShortAnswer
-    ]
+    if (reviewMode && reviewQuestionIds.length > 0) {
+      // Review mode - use specific questions
+      const allBankQuestions = getAllQuestionsFromBank(material.questionBank)
+      allQuestions = allBankQuestions.filter(q => reviewQuestionIds.includes(q.id))
+    } else {
+      // Normal mode - select random questions from each type
+      const selectedMCQ = getRandomQuestions(material.questionBank.mcq, mcqCount)
+      const selectedSingleWord = getRandomQuestions(material.questionBank.singleWord, singleWordCount)
+      const selectedShortAnswer = getRandomQuestions(material.questionBank.shortAnswer, shortAnswerCount)
+
+      allQuestions = [
+        ...selectedMCQ,
+        ...selectedSingleWord,
+        ...selectedShortAnswer
+      ]
+    }
 
     // Check if all questions have IDs
     const questionsWithoutIds = allQuestions.filter(q => !q.id)

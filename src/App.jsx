@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import ErrorBoundary from './components/common/ErrorBoundary/ErrorBoundary'
 import Header from './components/layout/Header/Header'
 import Footer from './components/layout/Footer/Footer'
 
@@ -19,11 +20,16 @@ import './styles/index.css'
 
 function App() {
   return (
-    <div className="app">
-      <Header />
-      
-      <main>
-        <Routes>
+    <ErrorBoundary>
+      <a href="#main-content" className="skip-to-main">
+        Skip to main content
+      </a>
+
+      <div className="app">
+        <Header />
+
+        <main id="main-content">
+          <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/api-setup" element={<ApiKeySetup />} />
@@ -44,6 +50,7 @@ function App() {
 
       <Footer />
     </div>
+    </ErrorBoundary>
   )
 }
 

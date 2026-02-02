@@ -1,0 +1,61 @@
+/* Accessibility Enhancements */
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: var(--font-semibold);
+  z-index: 9999;
+  border-radius: var(--border-radius-sm);
+}
+
+.skip-to-main:focus {
+  top: var(--space-2);
+  left: var(--space-2);
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible for all interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn--primary {
+    border: 3px solid var(--color-black);
+  }
+
+  .card {
+    border: 2px solid var(--color-black);
+  }
+}
+
+/* Dark mode support (future) */
+@media (prefers-color-scheme: dark) {
+  /* Keep light mode for now - Medium doesn't have dark mode */
+  /* Can be added later if needed */
+}

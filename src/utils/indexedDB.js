@@ -50,6 +50,14 @@ export async function getAllMaterials() {
 
 export async function deleteMaterial(id) {
   const db = await initDB()
+
+  // First, delete all quizzes associated with this material
+  const quizzes = await getQuizzesByMaterial(id)
+  for (const quiz of quizzes) {
+    await db.delete('quizzes', quiz.id)
+  }
+
+  // Then delete the material
   await db.delete('materials', id)
 }
 
@@ -81,6 +89,11 @@ export async function getQuizzesByMaterial(materialId) {
   const db = await initDB()
   const index = db.transaction('quizzes').store.index('materialId')
   return await index.getAll(materialId)
+}
+
+export async function getAllQuizzes() {
+  const db = await initDB()
+  return await db.getAll('quizzes')
 }
 
 export async function deleteQuiz(id) {

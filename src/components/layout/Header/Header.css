@@ -7,11 +7,6 @@
   transition: box-shadow var(--transition-base);
 }
 
-/* Subtle shadow on scroll (add via JS later if needed) */
-.header--scrolled {
-  box-shadow: var(--shadow-sm);
-}
-
 .header__content {
   display: flex;
   justify-content: space-between;
@@ -23,6 +18,29 @@
 .header__logo-link {
   text-decoration: none;
   display: inline-block;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  font-size: var(--text-2xl);
+  color: var(--color-black);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  line-height: 1;
+  transition: transform var(--transition-base);
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.1);
+}
+
+.mobile-menu-btn:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
 }
 
 /* Navigation */
@@ -53,36 +71,57 @@
   background-color: var(--color-gray-100);
 }
 
-.nav-link:focus {
+.nav-link:focus-visible {
   outline: 2px solid var(--color-black);
   outline-offset: 2px;
 }
 
-/* Active link (add this class via React Router) */
 .nav-link.active {
   color: var(--color-black);
   font-weight: var(--font-semibold);
 }
 
-/* Responsive */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .header__content {
     padding-top: var(--space-2);
     padding-bottom: var(--space-2);
   }
 
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .header__nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-300);
+    padding: var(--space-4);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    z-index: var(--z-dropdown);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .header__nav--open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
   .nav-list {
-    gap: var(--space-2);
+    flex-direction: column;
+    gap: var(--space-1);
   }
 
   .nav-link {
-    font-size: var(--text-xs);
-    padding: var(--space-1);
-  }
-}
-
-@media (max-width: 480px) {
-  .nav-list {
-    gap: var(--space-1);
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-base);
   }
 }
