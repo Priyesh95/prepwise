@@ -2,16 +2,14 @@
 
 [build]
   # Install and build command
-  command = "npm ci && npm run build"
+  command = "npm ci --legacy-peer-deps && npm run build"
 
   # Directory with the static files
   publish = "dist"
 
-  # Node version and CI environment
+  # Node version
   [build.environment]
     NODE_VERSION = "20"
-    CI = "true"
-    NPM_FLAGS = "--legacy-peer-deps"
 
 # Redirect all requests to index.html for client-side routing
 [[redirects]]
