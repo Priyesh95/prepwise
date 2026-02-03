@@ -9,7 +9,7 @@
 
   # Node version
   [build.environment]
-    NODE_VERSION = "20"
+    NODE_VERSION = "18"
 
 # Redirect all requests to index.html for client-side routing
 [[redirects]]
