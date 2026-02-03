@@ -1,8 +1,8 @@
 # Netlify Configuration for PrepWise
 
 [build]
-  # Install and build command
-  command = "npm ci --legacy-peer-deps && npm run build"
+  # Build command (dependencies auto-installed by Netlify)
+  command = "npm run build"
 
   # Directory with the static files
   publish = "dist"
