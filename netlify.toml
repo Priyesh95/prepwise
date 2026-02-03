@@ -1,8 +1,8 @@
 # Netlify Configuration for PrepWise
 
 [build]
-  # Build command (dependencies auto-installed by Netlify)
-  command = "npm run build"
+  # Explicitly install devDependencies then build
+  command = "npm install --include=dev --legacy-peer-deps && npm run build"
 
   # Directory with the static files
   publish = "dist"
