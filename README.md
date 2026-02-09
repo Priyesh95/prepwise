@@ -4,7 +4,7 @@
 
 PrepWise is an AI-powered study companion that transforms your PDF study materials into interactive, intelligent quizzes. Upload your textbooks, lecture notes, or study guides, and let AI generate personalized questions to help you master any subject.
 
-((https://prepwisepn.netlify.app/)/)
+((https://prepwisepn.netlify.app/)
 
 
 https://github.com/user-attachments/assets/88a8d1b3-2223-44ba-98d9-fd3b2ccfb307
