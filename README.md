@@ -6,6 +6,10 @@ PrepWise is an AI-powered study companion that transforms your PDF study materia
 
 (https://comfy-flan-da65e8.netlify.app/)
 
+
+https://github.com/user-attachments/assets/88a8d1b3-2223-44ba-98d9-fd3b2ccfb307
+
+
 ---
 
 ## 🌟 Key Features
